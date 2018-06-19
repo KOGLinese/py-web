@@ -9,9 +9,7 @@ app = Flask(__name__)
 #添加配置文件
 app.config.from_object(config)
 app.config['SECRET_KEY'] = '123456'
-
 db.init_app(app)
-
 with app.app_context():
     db.create_all()
 
@@ -26,11 +24,12 @@ def login():
         else:
             account = request.form.get('account')
             password = request.form.get('password')
-            user = User.query.filter(User.password == password, User.account == User.account).first()
+            user = User.query.filter(User.password == password, User.account == account).first()
             if user:
+                #print(user.username)
                 session['user_id'] = user.id
                 session.permanent = True
-                return redirect(url_for('index'))
+                return redirect(url_for('index', user=user))
             else:
                 return u'账号或者密码错误'
 
@@ -46,7 +45,7 @@ def regist():
         password2 = request.form.get('password2')
         user = User.query.filter(User.account == account).first()
         if user:
-            return u'账号被注册'
+            return u'账号已被注册'
         else:
             if password1 != password2:
                 return u'两次密码不同'
@@ -64,23 +63,12 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-#@app.route('/user/<username>')
-#def user(username):
-#       user = User.query.filter(User.username==username).first()
-#       if user:
-#      print(user.username)
-#      return redirect('user.html', user=user)
-#@app.route('/user/<name>', methods=['GET'])
-#def user(name):
-#   print(name)
-#   return render_template('/user.html')
 @app.route('/user/<username>')
 def user(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        return render_template('index.html')
-    posts = user.posts.order_by(Post.timestamp.desc()).all()
-    return render_template('user.html', user=user, posts=posts)
+    user = User.query.filter(User.username == username).first()
+    if user:
+        return render_template('user.html', user=user)
+
 
 @app.context_processor
 def my_context_prcessor():
