@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}首页{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/login.css') }}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="jumbotron">
+				<h1>
+					欢迎来到福宝购物中心
+				</h1>
+				<p>
+					This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-3 column">
+			<h2>
+				书籍
+			</h2>
+			<p>
+				Donec idum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				 <a class="btn" href="#">了解更多</a>
+			</p>
+		</div>
+		<div class="col-md-3 column">
+			<h2>
+				衣服
+			</h2>
+			<p>
+				Donec id elit non mi porta grav malesua
+                da magna mollis euismod. Donec sed odio dui.
+			</p>
+			<p>
+				 <a class="btn" href="#">了解更多</a>
+			</p>
+		</div>
+		<div class="col-md-3 column">
+			<h2>
+				电子产品
+			</h2>
+			<p>
+				D是多久啊是领导和卡拉卡号的卡刷道具卡和傻
+                大姐卡拉圣诞节卡仕达卡仕达揭开了哈是的撒大大ui.
+			</p>
+			<p>
+				 <a class="btn" href="#">了解更多</a>
+			</p>
+		</div>
+        <div class="col-md-3 column">
+			<h2>
+				饮食
+			</h2>
+			<p>
+				Donec id eutdssssss ssss
+                s ssss sssssssssssss sssssssssssss
+                ssssssss sssss sssssssssssssssss sss
+                sssssssssssd odio dui.
+			</p>
+			<p>
+				 <a class="btn" href="#">了解更多</a>
+			</p>
+		</div>
+
+
+	</div>
+</div>
+{% endblock %}

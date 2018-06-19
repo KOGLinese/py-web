@@ -1,0 +1,12 @@
+#encoding: utf-8
+
+DIALECT = 'mysql'
+DRIVER = 'pymysql'
+USERNAME = 'root'
+PASSWORD = 'lsj123'
+HOST = '123.206.45.209'
+PORT = '3306'
+DATABASE = 'shopping'
+SQLALCHEMY_DATABASE_URI = "{}+{}://{}:{}@{}:{}/{}?charset=utf8".format(DIALECT,DRIVER,USERNAME,PASSWORD,HOST,PORT,DATABASE)
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
