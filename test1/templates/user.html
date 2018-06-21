@@ -3,13 +3,14 @@
 {% block title %}首页{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/user.css') }}">
 {% endblock %}
 
 {% block main %}
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-2 column">
+
 			<img class="img-circle" alt="140x140" src="static/images/fzu.jpg" />
 		</div>
 		<div class="col-md-6 column">
@@ -38,14 +39,15 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					这个人很懒什么都没有留下
+					<p>
+						这个人很懒什么都没有留下
+					</p>
 				</div>
 			</div>
 		</div>
 	</div>
     <p>
   <button type="button" class="btn btn-primary">充值余额</button>
-  <button type="button" class="btn btn-default">修改信息</button>
     </p>
 </div>
 {% endblock %}

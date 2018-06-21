@@ -28,7 +28,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">福宝</a>
+      <a class="navbar-brand" href="{{ url_for('index') }}">福宝</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,7 +42,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               商品总类 <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">书籍</a></li>
+            <li><a href="{{ url_for('books') }}">书籍</a></li>
             <li><a href="#">衣服</a></li>
             <li><a href="#">电子产品</a></li>
             <li><a href="#">饮食</a></li>

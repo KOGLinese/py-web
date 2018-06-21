@@ -2,16 +2,28 @@
 from flask import Flask, redirect, render_template, request, url_for, session
 from exts import db
 import models
-from models import User
+from models import User,Books,Clothes,Digital,Eating
 import config
-
+from functools import wraps
+from flask_admin import Admin,BaseView,expose
 app = Flask(__name__)
 #添加配置文件
+admin = Admin(app, name=u'后台管理系统')
 app.config.from_object(config)
 app.config['SECRET_KEY'] = '123456'
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
+#登录限制装饰器
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if session.get('user_id'):
+            return func(*args, **kwargs)
+        else:
+            redirect(url_for('login'))
+    return wrapper
 
 @app.route('/')
 def index():
@@ -69,6 +81,12 @@ def user(username):
     if user:
         return render_template('user.html', user=user)
 
+@app.route('/books')
+def books():
+    context={
+        'books': Books.query.all()
+    }
+    return render_template('book.html', **context)
 
 @app.context_processor
 def my_context_prcessor():
@@ -78,6 +96,7 @@ def my_context_prcessor():
         if user:
             return {'user': user}
     return {}
+
 
 if __name__=='__main__':
     app.run(debug=True)
