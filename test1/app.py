@@ -80,6 +80,8 @@ def user(username):
     user = User.query.filter(User.username == username).first()
     if user:
         return render_template('user.html', user=user)
+    else:
+        return render_template('login.html')
 
 @app.route('/books')
 def books():

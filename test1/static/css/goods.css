@@ -1,0 +1,9 @@
+.thumbnail{
+display:inline-block;
+width:50%;/*图片自适应的父容器的宽*/
+height:50%;/*图片自适应的父容器的高*/
+}
+img.thumbnail{
+width:10%;
+height:10%;
+}
