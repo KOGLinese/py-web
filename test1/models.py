@@ -9,6 +9,7 @@ class Books(db.Model):
     bookdescrip =db.Column(db.Text,default='没有任何描述')
     bookpic = db.Column(db.String(100), default='static/images/fzu.jpg')
     book_num = db.Column(db.Integer)
+
 class Clothes(db.Model):
     __tablename__ = 'clothes'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

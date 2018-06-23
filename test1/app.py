@@ -75,15 +75,57 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-@app.route('/user/<username>')
+@app.route('/user/<username>/')
 def user(username):
+  ##  addmoney = request.form.get('money')
+  ##  password = request.form.get('password')
     user = User.query.filter(User.username == username).first()
     if user:
+        ##if addmoney < 0:
+         #   return u'充值金额有误，请重新充值'
+       # else:
+        #user.money = user.money+addmoney
+        #db.session.commit()
         return render_template('user.html', user=user)
+    else:
+        return u'密码错误，请重新充值'
+@app.route('/addmoney/',methods =['GET','POST'])
+def addmoney():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        addmon = request.form.get('money')
+        addmon=int(addmon)
+        password = request.form.get('password')
+        user = User.query.filter(User.id == session['user_id']).first()
+        if user:
+            if password == user.password and addmon > 0:
+                user.money=user.money+addmon
+                db.session.commit()
+                return render_template('user.html', user=user)
+            else:
+                return u'密码错误或者充值有误'
+        else:
+            return render_template('login.html')
+@app.route('/books/')
+def judge1(id):
+    if session['user_id']:
+        user =User.query.filter(User.id == session['user_id']).first()
+        book = Books.query.filter(Books.id == id).first()
+        if book and user:
+            if user.money>book.bookprice and book.book_num > 0:
+                user.money=user.money-book.bookprice
+                book.book_num=book.book_num-1
+                db.session.commit()
+                return u'购买成功'
+            elif user.money<book.bookprice:
+                return u'您的余额不足'
+            elif book.book_num <=0 :
+                return u'暂无库存'
     else:
         return render_template('login.html')
 
-@app.route('/books')
+@app.route('/books/')
 def books():
     context={
         'books': Books.query.all()

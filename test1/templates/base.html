@@ -58,6 +58,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% if user %}
             <li><a href="{{ url_for('user',username=user.username) }}">{{ user.username }}</a></li>
+            <li><a >余额：{{ user.money }}</a></li>
             <li><a href="{{ url_for('logout') }}">退出</a></li>
         {% else %}
             <li><a href="{{ url_for('login') }}">登录</a></li>

@@ -1,9 +1,14 @@
-.thumbnail{
-display:inline-block;
-width:50%;/*图片自适应的父容器的宽*/
-height:50%;/*图片自适应的父容器的高*/
+img.bookhead{
+    width:200px;
+    height:242px;
+     overflow:hidden;
 }
-img.thumbnail{
-width:10%;
-height:10%;
+.container{
+
+    margin: 0 auto;
+    text-align: center;
+}
+.kuang{
+	border-style:solid;
+	border-color:#98bf21;
 }
