@@ -1,14 +1,12 @@
 #enconding utf-8
-from flask import Flask, redirect, render_template, request, url_for, session
+from flask import Flask, redirect, render_template, request, url_for, session,flash
 from exts import db
 import models
 from models import User,Books,Clothes,Digital,Eating
 import config
 from functools import wraps
-from flask_admin import Admin,BaseView,expose
 app = Flask(__name__)
 #添加配置文件
-admin = Admin(app, name=u'后台管理系统')
 app.config.from_object(config)
 app.config['SECRET_KEY'] = '123456'
 db.init_app(app)
@@ -38,7 +36,6 @@ def login():
             password = request.form.get('password')
             user = User.query.filter(User.password == password, User.account == account).first()
             if user:
-                #print(user.username)
                 session['user_id'] = user.id
                 session.permanent = True
                 return redirect(url_for('index', user=user))
@@ -69,23 +66,13 @@ def regist():
 
 @app.route('/logout/')
 def logout():
-    #删除id
-    # session.pop('user_id')
-    # del session('user_id')
     session.clear()
     return redirect(url_for('login'))
 
 @app.route('/user/<username>/')
 def user(username):
-  ##  addmoney = request.form.get('money')
-  ##  password = request.form.get('password')
     user = User.query.filter(User.username == username).first()
     if user:
-        ##if addmoney < 0:
-         #   return u'充值金额有误，请重新充值'
-       # else:
-        #user.money = user.money+addmoney
-        #db.session.commit()
         return render_template('user.html', user=user)
     else:
         return u'密码错误，请重新充值'
@@ -95,7 +82,7 @@ def addmoney():
         return render_template('login.html')
     else:
         addmon = request.form.get('money')
-        addmon=int(addmon)
+        addmon = int(addmon)
         password = request.form.get('password')
         user = User.query.filter(User.id == session['user_id']).first()
         if user:
@@ -107,20 +94,32 @@ def addmoney():
                 return u'密码错误或者充值有误'
         else:
             return render_template('login.html')
-@app.route('/books/')
+
+@app.route('/search/',methods=['GET','POST'])
+def search():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        pass
+
+@app.route('/books/<id>')
 def judge1(id):
     if session['user_id']:
-        user =User.query.filter(User.id == session['user_id']).first()
+        user = User.query.filter(User.id == session['user_id']).first()
+        print(user.id)
         book = Books.query.filter(Books.id == id).first()
         if book and user:
-            if user.money>book.bookprice and book.book_num > 0:
-                user.money=user.money-book.bookprice
-                book.book_num=book.book_num-1
+            if user.money > book.bookprice and book.book_num > 0:
+                user.money = user.money-book.bookprice
+                book.book_num = book.book_num-1
                 db.session.commit()
+                #flash(u'购买成功')
                 return u'购买成功'
-            elif user.money<book.bookprice:
+            elif user.money < book.bookprice:
+                #flash(u'您的余额不足')
                 return u'您的余额不足'
-            elif book.book_num <=0 :
+            elif book.book_num <= 0:
+                #flash(u'暂无库存')
                 return u'暂无库存'
     else:
         return render_template('login.html')
@@ -130,7 +129,11 @@ def books():
     context={
         'books': Books.query.all()
     }
-    return render_template('book.html', **context)
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        return render_template('book.html', **context, user=user)
+    else:
+        return redirect(url_for('login'))
 
 @app.context_processor
 def my_context_prcessor():
@@ -140,7 +143,6 @@ def my_context_prcessor():
         if user:
             return {'user': user}
     return {}
-
 
 if __name__=='__main__':
     app.run(debug=True)

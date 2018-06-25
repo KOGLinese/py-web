@@ -12,13 +12,13 @@
 {% for book in books %}
   <div class="col-sm-6 col-md-4" >
       <div class="kuang">
-        <img src={{ book.bookpic }}  class="bookhead">
+        <img src="../{{ book.bookpic }}"  class="bookhead">
       <div class="caption">
         <h3>书名：{{book.bookname }}</h3>
             <p>{{ book.bookdescrip }}</p>
             <p>价格：{{ book.bookprice }}</p>
             <p>库存量：{{ book.book_num }}</p>
-        <a href="{{ url_for('judge1',id=book.id ) }}"   class="btn btn-primary"  role="button" onClick="return confirm('是否购买?');">购买</a>
+            <a  href="{{ url_for('judge1',id=book.id) }}" type="submit" class="btn btn-primary btn-block" onClick="return confirm('确认购买');">购买</a>
       </div>
       </div>
   </div>
