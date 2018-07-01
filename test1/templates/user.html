@@ -10,7 +10,7 @@
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-2 column">
-			<img class="img-circle" alt="140x140" src="../static/images/fzu.jpg" />
+			<img class="img-circle" alt="140x140" src="/static/images/fzu.jpg" />
 		</div>
 		<div class="col-md-6 column">
 			<div class="panel panel-default">
@@ -48,7 +48,7 @@
 	<form action="{{ url_for('addmoney') }}" method="post">
     <p>
 		<label >余额充值</label>
-                 <input type="number"  name="money">
+                 <input type="number" placeholder="请输入整数金额"  name="money">
 		<label >确认密码</label>
 				<input type="password"   placeholder="请确认密码" name="password">
 	</p>
