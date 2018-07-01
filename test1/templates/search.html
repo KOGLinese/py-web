@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}搜索{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/goods.css') }}">
+{% endblock %}
+
+{% block main %}
+<div class="container">
+<div class="row">
+{% for book in books %}
+  <div class="col-sm-6 col-md-4" >
+      <div class="kuang">
+        <img src="../static/images/{{ book.bookpic }}"  class="bookhead">
+      <div class="caption">
+        <h3>名称：{{book.bookname }}</h3>
+            <p>{{ book.bookdescrip }}</p>
+            <p>价格：{{ book.bookprice }}</p>
+            <p>库存量：{{ book.book_num }}</p>
+            <a  href="{{ url_for('judge1',id=book.id) }}" type="submit" class="btn btn-primary btn-block" onClick="return confirm('确认购买');">购买</a>
+      </div>
+      </div>
+  </div>
+{% endfor %}
+    {% for clothe in clothes %}
+  <div class="col-sm-6 col-md-4" >
+      <div class="kuang">
+        <img src="../static/images/{{ clothe.clothepic }}"  class="bookhead">
+      <div class="caption">
+        <h3>名称：{{clothe.clothesname }}</h3>
+            <p>{{ clothe.clothesdescrip }}</p>
+            <p>价格：{{ clothe.clotheprice }}</p>
+            <p>库存量：{{ clothe.clothes_num }}</p>
+            <a  href="{{ url_for('judge2',id=clothe.id) }}" type="submit" class="btn btn-primary btn-block" onClick="return confirm('确认购买');">购买</a>
+      </div>
+      </div>
+  </div>
+{% endfor %}
+        {% for digital in digitals %}
+  <div class="col-sm-6 col-md-4" >
+      <div class="kuang">
+        <img src="../static/images/{{ digital.digitalthepic }}"  class="bookhead">
+      <div class="caption">
+        <h3>名称：{{digital.digitalname }}</h3>
+            <p>{{ digital.digitaldescrip }}</p>
+            <p>价格：{{ digital.digitalprice }}</p>
+            <p>库存量：{{ digital.digital_num }}</p>
+            <a  href="{{ url_for('judge3',id=digital.id) }}" type="submit" class="btn btn-primary btn-block" onClick="return confirm('确认购买');">购买</a>
+      </div>
+      </div>
+  </div>
+{% endfor %}
+        {% for eat in eats %}
+  <div class="col-sm-6 col-md-4" >
+      <div class="kuang">
+        <img src="../static/images/{{ eat.eatinghepic }}"  class="bookhead">
+      <div class="caption">
+        <h3>名称：{{eat.eatingname }}</h3>
+            <p>{{ eat.eatingdescrip }}</p>
+            <p>价格：{{ eat.eatingprice }}</p>
+            <p>库存量：{{ eat.eating_num }}</p>
+            <a  href="{{ url_for('judge4',id=eat.id) }}" type="submit" class="btn btn-primary btn-block" onClick="return confirm('确认购买');">购买</a>
+      </div>
+      </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

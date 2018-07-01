@@ -82,7 +82,7 @@ def addmoney():
         return render_template('login.html')
     else:
         addmon = request.form.get('money')
-        addmon = int(addmon)
+        addmon = float(addmon)
         password = request.form.get('password')
         user = User.query.filter(User.id == session['user_id']).first()
         if user:
@@ -95,31 +95,96 @@ def addmoney():
         else:
             return render_template('login.html')
 
-@app.route('/search/',methods=['GET','POST'])
+@app.route('/',methods=['GET','POST'])
 def search():
     if request.method == 'GET':
         return render_template('login.html')
     else:
-        pass
+        goodsname = request.form.get('goodsname')
+        book = Books.query.filter(Books.bookname.like(goodsname)).all()
+        clothe = Clothes.query.filter(Clothes.clothesname.like(goodsname)).all()
+        digital = Digital.query.filter(Digital.digitalname.like(goodsname)).all()
+        eat = Eating.query.filter(Eating.eatingname.like(goodsname)).all()
+        context = {
+            'books': book,
+            'clothes': clothe,
+            'digitals': digital,
+            'eats': eat
+        }
+        if session.get('user_id'):
+            user = User.query.filter(User.id == session['user_id']).first()
+            return render_template('search.html', **context, user=user)
+        else:
+            return redirect(url_for('login'))
 
 @app.route('/books/<id>')
 def judge1(id):
-    if session['user_id']:
+    if session.get('user_id'):
         user = User.query.filter(User.id == session['user_id']).first()
-        print(user.id)
-        book = Books.query.filter(Books.id == id).first()
-        if book and user:
-            if user.money > book.bookprice and book.book_num > 0:
-                user.money = user.money-book.bookprice
-                book.book_num = book.book_num-1
+        good = Books.query.filter(Books.id == id).first()
+        if good and user:
+            if user.money > good.bookprice and good.book_num > 0:
+                user.money = user.money-good.bookprice
+                good.book_num = good.book_num-1
                 db.session.commit()
-                #flash(u'购买成功')
                 return u'购买成功'
-            elif user.money < book.bookprice:
-                #flash(u'您的余额不足')
+            elif user.money < good.bookprice:
                 return u'您的余额不足'
-            elif book.book_num <= 0:
-                #flash(u'暂无库存')
+            elif good.book_num <= 0:
+                return u'暂无库存'
+    else:
+        return render_template('login.html')
+
+@app.route('/clothe/<id>')
+def judge2(id):
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        good = Clothes.query.filter(Clothes.id == id).first()
+        if good and user:
+            if user.money > good.clotheprice and good.clothes_num > 0:
+                user.money = user.money-good.clotheprice
+                good.clothes_num = good.clothes_num-1
+                db.session.commit()
+                return u'购买成功'
+            elif user.money < good.clotheprice:
+                return u'您的余额不足'
+            elif good.clothes_num <= 0:
+                return u'暂无库存'
+    else:
+        return render_template('login.html')
+
+@app.route('/digital/<id>')
+def judge3(id):
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        good = Digital.query.filter(Digital.id == id).first()
+        if good and user:
+            if user.money > good.digitalprice and good.digital_num > 0:
+                user.money = user.money-good.digitalprice
+                good.clothes_num = good.digital_num-1
+                db.session.commit()
+                return u'购买成功'
+            elif user.money < good.digitalprice:
+                return u'您的余额不足'
+            elif good.digital_num <= 0:
+                return u'暂无库存'
+    else:
+        return render_template('login.html')
+
+@app.route('/eating/<id>')
+def judge4(id):
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        good = Eating.query.filter(Eating.id == id).first()
+        if good and user:
+            if user.money > good.eatingprice and good.eating_num > 0:
+                user.money = user.money-good.eatingprice
+                good.eating_num = good.eating_num-1
+                db.session.commit()
+                return u'购买成功'
+            elif user.money < good.eatingprice:
+                return u'您的余额不足'
+            elif good.eating_num <= 0:
                 return u'暂无库存'
     else:
         return render_template('login.html')
@@ -135,6 +200,37 @@ def books():
     else:
         return redirect(url_for('login'))
 
+@app.route('/clothes/')
+def clothes():
+    context={
+        'clothes': Clothes.query.all()
+    }
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        return render_template('clothe.html', **context, user=user)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/digital/')
+def digital():
+    context={
+        'digitals': Digital.query.all()
+    }
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        return render_template('digital.html', **context, user=user)
+    else:
+        return redirect(url_for('login'))
+@app.route('/eating/')
+def eating():
+    context={
+        'eatings': Eating.query.all()
+    }
+    if session.get('user_id'):
+        user = User.query.filter(User.id == session['user_id']).first()
+        return render_template('eating.html', **context, user=user)
+    else:
+        return redirect(url_for('login'))
 @app.context_processor
 def my_context_prcessor():
     user_id = session.get('user_id')
