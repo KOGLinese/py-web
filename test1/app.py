@@ -105,15 +105,20 @@ def search():
         clothe = Clothes.query.filter(Clothes.clothesname.like(goodsname)).all()
         digital = Digital.query.filter(Digital.digitalname.like(goodsname)).all()
         eat = Eating.query.filter(Eating.eatingname.like(goodsname)).all()
+
         context = {
             'books': book,
             'clothes': clothe,
             'digitals': digital,
             'eats': eat
         }
+        if context is None:
+            flag = 1
+        else:
+            flag = 0
         if session.get('user_id'):
             user = User.query.filter(User.id == session['user_id']).first()
-            return render_template('search.html', **context, user=user)
+            return render_template('search.html', **context, user=user, flag=flag)
         else:
             return redirect(url_for('login'))
 
@@ -243,3 +248,4 @@ def my_context_prcessor():
 if __name__=='__main__':
     app.run(debug=True)
 
+#host='0.0.0.0',
